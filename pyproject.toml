@@ -1,0 +1,33 @@
+[project]
+name = "genai_cookbook"
+version = "0.1.0"
+description = "Intro to GenAI - TDs"
+requires-python = ">=3.11"
+dependencies = [
+    "jsonschema",
+    "openai",
+    "matplotlib",
+    "requests",
+    "langchain_openai",
+    "langchain_community",
+    "pypdf",
+    "tiktoken",
+    "jupyterlab",
+    "python-dotenv",
+    "langchain>=1.0.5",
+    "gradio",
+    "qdrant-client",
+    "python-docx",
+    "python-pptx",
+    "rank-bm25>=0.2.2",
+    "streamlit>=1.51.0",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
+    #"faiss-cpu",
+    "newspaper3k>=0.2.8",
+    "langchain-mcp-adapters>=0.1.14",
+    "lxml-html-clean>=0.4.3",
+    "ddgs>=9.9.1",
+    "mcp>=1.22.0",
+    "smolagents[toolkit]>=1.23.0",
+]
