@@ -1,0 +1,14 @@
+services:
+  genai_cookbook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: genai_cookbook
+    volumes:
+      - ./:/app
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    stdin_open: true
+    tty: true
