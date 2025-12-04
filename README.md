@@ -18,12 +18,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 2. Install dependencies:
 ```bash
-uv pip install -e .
-```
-
-Or install from requirements.txt:
-```bash
-uv pip install -r requirements.txt
+uv sync
 ```
 
 ## Usage
@@ -35,7 +30,7 @@ source .venv/bin/activate
 
 2. Start Jupyter:
 ```bash
-jupyter notebook
+jupyter lab
 ```
 
 3. Navigate to the desired topic folder:
@@ -48,49 +43,64 @@ jupyter notebook
 ## Setup with Docker (Python 3.13)
 
 ### Prerequisites
-- [Docker](https://www.docker.com/) installed
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed
 
 ### Installation and Usage
 
-1. Build the Docker image:
+1. Build and start the container:
 ```bash
-docker build -t genai-cookbook .
+docker compose up --build
 ```
 
-2. Run the container with volume mounting (allows local code updates):
-```bash
-docker run -p 8888:8888 -v $(pwd):/app genai-cookbook
-```
-
-On Windows (PowerShell):
-```bash
-docker run -p 8888:8888 -v ${PWD}:/app genai-cookbook
-```
-
-On Windows (CMD):
-```bash
-docker run -p 8888:8888 -v %cd%:/app genai-cookbook
-```
-
-3. Access JupyterLab:
+2. Access JupyterLab:
    - Open your browser and navigate to `http://localhost:8888`
    - The codebase is mounted as a volume, so any changes you make locally will be immediately reflected in the container
 
-**Note:** The volume mount (`-v $(pwd):/app`) ensures that:
+**Note:** The volume mount ensures that:
 - All your notebooks and source code are accessible in the container
 - Changes made locally are immediately available in JupyterLab
 - No need to rebuild the image when updating code
 
+To run in detached mode (background):
+```bash
+docker compose up -d --build
+```
+
+To stop the container:
+```bash
+docker compose down
+```
+
 ## API Configuration
 
-The notebooks support both OpenAI API and local Ollama. Set your API key:
+The notebooks support OpenAI API, Google Gemini API, and local Ollama.
+
+### Using .env file (Recommended)
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` and add your API keys:
+   - `OPENAI_API_KEY` - Your OpenAI API key (required for OpenAI models)
+   - `GOOGLE_API_KEY` - Your Google API key (required for Gemini models)
+   - `USE_GEMINI` - Set to `true` or `1` to use Gemini instead of OpenAI
+
+3. When using Docker Compose, the `.env` file will be automatically loaded.
+
+### Using environment variables directly
+
+For local development (uv setup), export the variables:
 ```bash
 export OPENAI_API_KEY="your-key-here"
+export GOOGLE_API_KEY="your-google-key-here"
+export USE_GEMINI="false"
 ```
 
 Or configure Ollama locally for offline usage.
 
-When using Docker, you can pass environment variables:
+When using Docker Compose without a `.env` file, you can set them inline:
 ```bash
-docker run -p 8888:8888 -v $(pwd):/app -e OPENAI_API_KEY="your-key-here" genai-cookbook
+OPENAI_API_KEY="your-key-here" GOOGLE_API_KEY="your-google-key-here" docker compose up
 ```
